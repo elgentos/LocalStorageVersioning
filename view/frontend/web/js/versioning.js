@@ -11,13 +11,12 @@ requirejs(['jquery','mage/cookies'], function ($) {
 
         success: function (deployedVersion) {
             if ($.mage.cookies.get('mage-deployed-version')) {
-                if (deployedVersion > $.mage.cookies.get('mage-deployed-version')) {
-                    console.log('Clearing localStorage because deployedVersion is newer than cookie');
+                if (deployedVersion != $.mage.cookies.get('mage-deployed-version')) {
+                    console.log('Clearing localStorage because deployedVersion is different than cookie');
+                    $.mage.cookies.set('mage-deployed-version', deployedVersion, {});
                     localStorage.clear();
-                } else if (deployedVersion < $.mage.cookies.get('mage-deployed-version')) {
-                    console.log('Cookie is newer than deployedVersion; this should not happen.');
                 } else {
-                    console.log('Do nothing! Everything is uptodate.');
+                    console.log('Do not clear localStorage. Everything is up-to-date.');
                 }
             } else {
                 console.log('Clearing localStorage because cookie is not found.');
